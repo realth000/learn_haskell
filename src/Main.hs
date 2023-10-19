@@ -132,5 +132,53 @@ cylinder r h =
       topArea = r ^ 2
    in sideArea + 2 * topArea
 
+-- Case
+myHeadCase :: [a] -> a
+myHeadCase xs = case xs of
+  [] -> error "Empty list"
+  (x : _) -> x
+
+{-
+ - Chapter 5 Recursive
+ -}
+
+myMaximum :: (Ord a) => [a] -> a
+myMaximum [] = error "calling maximum on empty list"
+myMaximum [x] = x
+myMaximum (x : xs)
+  | x > maxTail = x
+  | otherwise = maxTail
+  where
+    maxTail = myMaximum xs
+
+runMyMaximumList = print $ myMaximum [1, 2, 3, 4, 5, 2]
+
+runMyMaximumString = print $ myMaximum "123452"
+
+myReplicate :: (Num i, Ord i) => i -> a -> [a]
+myReplicate n x
+  | n <= 0 = []
+  | otherwise = x : myReplicate (n - 1) x
+
+myTake :: (Num b, Ord b) => [a] -> b -> [a]
+myTake [] b = []
+myTake [x] b
+  | b < 1 = []
+  | otherwise = [x]
+myTake (x : xs) b
+  | b <= 0 = []
+  | otherwise = x : myTake xs (b - 1)
+
+runMyTake = print $ myTake [1, 2, 3] 2
+
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x : xs) =
+  let left = quickSort [a | a <- xs, a <= x]
+      right = quickSort [a | a <- xs, a > x]
+   in left ++ [x] ++ right
+
+runQuickSort = print $ quickSort "ivbenrvievhneqivqfo;jeoi2foi"
+
 main :: IO ()
-main = print $ cylinder 10.0 2
+main = runQuickSort
