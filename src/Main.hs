@@ -1,3 +1,6 @@
+import Chapter7.Geometry (sphereVolume)
+import Chapter8.MyDataType (Shape, surface)
+
 doubleMe x y = x * 2 + y * 2
 
 doubleSmallNumber x = if x <= 100 then x * 2 else x
@@ -40,7 +43,7 @@ removeNonUppercase st = [c | c <- st, c `elem` ['A' .. 'Z']]
  - -}
 
 lucky :: (Integral a) => a -> String
-lucky 7 = "asd"
+lucky 7 = "123"
 lucky y = "Not in luck"
 
 -- main = print $ lucky 123
@@ -180,5 +183,69 @@ quickSort (x : xs) =
 
 runQuickSort = print $ quickSort "ivbenrvievhneqivqfo;jeoi2foi"
 
+{-
+ - Chapter 6 Higher Level Functions
+ -}
+
+-- Functions assign
+compare100 :: (Num a, Ord a) => a -> Ordering
+compare100 = compare 100
+
+runCompare100 = print $ compare100 101
+
+myDivide :: (Floating a) => a -> a
+myDivide = (10 /)
+
+-- myDivide = (/10)
+runMyDivide = print $ myDivide 20
+
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)
+
+runApplyTwice = print $ applyTwice (10 /) 20
+
+myMap :: (a -> b) -> [a] -> [b]
+myMap _ [] = []
+myMap f (x : xs) = f x : myMap f xs
+
+runMyMap = print $ myMap ("!" ++) ["RUNNING", "MY", "MAP"]
+
+myFilter :: (a -> Bool) -> [a] -> [a]
+myFilter _ [] = []
+myFilter p (x : xs)
+  | p x = x : myFilter p xs
+  | otherwise = myFilter p xs
+
+runMyFilter = print $ myFilter (>= 5) [1, 4, 5, 6, 3]
+
+-- Lambda
+runMyFilterWithLambda = print $ myFilter (\xs -> length xs > 1) ["a", "ab", "abc"]
+
+leftFold :: (a -> a -> a) -> [a] -> a -> a
+leftFold _ [] a = a
+leftFold f (x : xs) a =
+  let acc2 = f a x
+   in leftFold f xs acc2
+
+runLeftFold = print $ leftFold (++) ["a", "b", "xxx"] ""
+
+--                f       -> xs  ->state -> ret
+leftScan :: (a -> a -> a) -> [a] -> [a] -> [a]
+leftScan _ [] state = state
+leftScan f (x : xs) (y : ys) =
+  let state = f y x
+      allState = state : y : ys
+   in leftScan f xs allState
+
+runLeftScan = print $ leftScan (\a b -> a * b * (-1)) [1, 2, 3, 4] [1]
+
+{-
+ - Chapter 7 Modules
+ -}
+
+runSphereVolume = print $ sphereVolume 10
+
+runSurface = print $ surface Circle 10 10 10
+
 main :: IO ()
-main = runQuickSort
+main = runSurface
