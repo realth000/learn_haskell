@@ -1,5 +1,6 @@
 import Chapter7.Geometry (sphereVolume)
-import Chapter8.MyDataType (Shape, surface)
+import Chapter8.MyDataType (runChapter8)
+import Chapter9.IO (runChapter9)
 
 doubleMe x y = x * 2 + y * 2
 
@@ -33,7 +34,6 @@ removeNonUppercase st = [c | c <- st, c `elem` ['A' .. 'Z']]
  - main = print $ length' lostNumbers
  - main = print $ removeNonUppercase "PascalCas上的e"
  - -}
-
 {-
  - Chapter 4
  -}
@@ -245,7 +245,8 @@ runLeftScan = print $ leftScan (\a b -> a * b * (-1)) [1, 2, 3, 4] [1]
 
 runSphereVolume = print $ sphereVolume 10
 
-runSurface = print $ surface Circle 10 10 10
+-- runSurface = print $ surface Circle 10 10 10
 
+-- runChapter8
 main :: IO ()
-main = runSurface
+main = runChapter9
